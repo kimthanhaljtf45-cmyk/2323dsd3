@@ -1,0 +1,233 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --color-ataka-red: #E30613;
+  --color-ataka-black: #0F0F10;
+  --color-ataka-gray: #1A1A1A;
+  --font-sans: 'Manrope', var(--font-geist-sans), sans-serif;
+  --font-heading: 'Outfit', var(--font-geist-sans), sans-serif;
+}
+
+:root {
+  /* АТАКА Brand Colors */
+  --background: #FFFFFF;
+  --foreground: #0F0F10;
+  --card: #FFFFFF;
+  --card-foreground: #0F0F10;
+  --primary: #E30613;
+  --primary-foreground: #FFFFFF;
+  --secondary: #F5F5F5;
+  --secondary-foreground: #0F0F10;
+  --muted: #F5F5F5;
+  --muted-foreground: #6B7280;
+  --border: #E5E5E5;
+  --ring: #E30613;
+  --success: #10B981;
+  --warning: #F59E0B;
+  --danger: #EF4444;
+  --radius: 12px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.font-heading {
+  font-family: var(--font-heading);
+}
+
+/* АТАКА Brand Gradients */
+.ataka-gradient {
+  background: linear-gradient(135deg, #E30613 0%, #B30510 100%);
+}
+
+.ataka-hero-bg {
+  background: linear-gradient(180deg, #0F0F10 0%, #1A1A1A 100%);
+}
+
+/* Hero Pattern - Eastern Style */
+.ataka-pattern {
+  background-image: 
+    radial-gradient(circle at 20% 80%, rgba(227, 6, 19, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(227, 6, 19, 0.08) 0%, transparent 40%);
+}
+
+/* Circle accent element */
+.ataka-circle {
+  width: 120px;
+  height: 120px;
+  background: #E30613;
+  border-radius: 50%;
+  position: absolute;
+  opacity: 0.15;
+}
+
+/* Telegram WebApp optimizations */
+.tg-safe-area-top {
+  padding-top: env(safe-area-inset-top);
+}
+
+.tg-safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Hide scrollbar but allow scrolling */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Glassmorphism */
+.glass {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Status badges - ATAKA style */
+.badge-success {
+  background-color: rgba(16, 185, 129, 0.1);
+  color: #10B981;
+}
+
+.badge-warning {
+  background-color: rgba(245, 158, 11, 0.1);
+  color: #F59E0B;
+}
+
+.badge-danger {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: #EF4444;
+}
+
+.badge-primary {
+  background-color: rgba(227, 6, 19, 0.1);
+  color: #E30613;
+}
+
+/* ATAKA Cards */
+.ataka-card {
+  background: white;
+  border: 1px solid #E5E5E5;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease;
+}
+
+.ataka-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.ataka-card-highlight {
+  background: #FFFBFB;
+  border: 1px solid rgba(227, 6, 19, 0.2);
+  border-left: 4px solid #E30613;
+}
+
+/* ATAKA Buttons */
+.ataka-btn-primary {
+  background: #E30613;
+  color: white;
+  font-weight: 600;
+  border-radius: 12px;
+  padding: 14px 24px;
+  transition: all 0.2s ease;
+}
+
+.ataka-btn-primary:hover {
+  background: #C30510;
+  transform: translateY(-1px);
+}
+
+.ataka-btn-primary:active {
+  transform: translateY(0);
+}
+
+.ataka-btn-secondary {
+  background: #0F0F10;
+  color: white;
+  font-weight: 600;
+  border-radius: 12px;
+  padding: 14px 24px;
+  transition: all 0.2s ease;
+}
+
+.ataka-btn-secondary:hover {
+  background: #1A1A1A;
+}
+
+.ataka-btn-outline {
+  background: transparent;
+  border: 2px solid #0F0F10;
+  color: #0F0F10;
+  font-weight: 600;
+  border-radius: 12px;
+  padding: 12px 22px;
+  transition: all 0.2s ease;
+}
+
+.ataka-btn-outline:hover {
+  background: #0F0F10;
+  color: white;
+}
+
+/* Progress indicators */
+.progress-excellent {
+  color: #10B981;
+}
+
+.progress-good {
+  color: #F59E0B;
+}
+
+.progress-warning {
+  color: #EF4444;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.4s ease forwards;
+}
+
+@keyframes pulse-red {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(227, 6, 19, 0.4); }
+  50% { box-shadow: 0 0 0 10px rgba(227, 6, 19, 0); }
+}
+
+.pulse-red {
+  animation: pulse-red 2s infinite;
+}

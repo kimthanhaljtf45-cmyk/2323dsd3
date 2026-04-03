@@ -1,0 +1,63 @@
+export enum AppRole {
+  PARENT = 'PARENT',
+  STUDENT = 'STUDENT',
+  COACH = 'COACH',
+  ADMIN = 'ADMIN',
+  SUPER_ADMIN = 'SUPER_ADMIN',
+}
+
+export enum UserStatus {
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE',
+  BLOCKED = 'BLOCKED',
+}
+
+export enum ChildStatus {
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE',
+}
+
+export enum AttendanceStatus {
+  PRESENT = 'PRESENT',
+  ABSENT = 'ABSENT',
+  WARNED = 'WARNED',
+  LATE = 'LATE',
+  CANCELLED = 'CANCELLED',
+}
+
+export enum ScheduleOverrideStatus {
+  ACTIVE = 'ACTIVE',
+  CANCELLED = 'CANCELLED',
+  MOVED = 'MOVED',
+}
+
+export enum ContentType {
+  NEWS = 'NEWS',
+  EVENT = 'EVENT',
+  VIDEO = 'VIDEO',
+  PHOTO = 'PHOTO',
+  ANNOUNCEMENT = 'ANNOUNCEMENT',
+}
+
+export enum ContentVisibility {
+  GROUP = 'GROUP',
+  LOCATION = 'LOCATION',
+  GLOBAL = 'GLOBAL',
+}
+
+export enum PaymentStatus {
+  PENDING = 'PENDING',
+  UNDER_REVIEW = 'UNDER_REVIEW',
+  PAID = 'PAID',
+  REJECTED = 'REJECTED',
+}
+
+export enum NotificationType {
+  TRAINING_REMINDER = 'TRAINING_REMINDER',
+  SCHEDULE_CHANGED = 'SCHEDULE_CHANGED',
+  ABSENCE_REPORTED = 'ABSENCE_REPORTED',
+  PAYMENT_DUE = 'PAYMENT_DUE',
+  PAYMENT_CONFIRMED = 'PAYMENT_CONFIRMED',
+  NEW_CONTENT = 'NEW_CONTENT',
+  EVENT_ANNOUNCEMENT = 'EVENT_ANNOUNCEMENT',
+}
