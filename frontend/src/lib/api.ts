@@ -32,6 +32,7 @@ export const authApi = {
 // Users
 export const usersApi = {
   getMe: () => api.get('/users/me'),
+  getDashboard: () => api.get('/users/me/dashboard'),
 };
 
 // Children

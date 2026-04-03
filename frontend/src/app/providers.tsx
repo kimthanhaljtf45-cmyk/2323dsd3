@@ -1,13 +1,7 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import dynamic from 'next/dynamic';
+import React, { useEffect } from "react";
 import { useStore } from "@/store/useStore";
-
-const AppShellComponent = dynamic(
-  () => import("@/components/layout/AppShell").then(mod => mod.AppShell),
-  { ssr: false }
-);
 
 // Telegram WebApp type declaration
 declare global {
@@ -26,60 +20,30 @@ declare global {
         ready: () => void;
         expand: () => void;
         close: () => void;
-        MainButton: {
-          text: string;
-          show: () => void;
-          hide: () => void;
-          onClick: (callback: () => void) => void;
-        };
-        BackButton: {
-          show: () => void;
-          hide: () => void;
-          onClick: (callback: () => void) => void;
-        };
-        themeParams: {
-          bg_color?: string;
-          text_color?: string;
-          hint_color?: string;
-          link_color?: string;
-          button_color?: string;
-          button_text_color?: string;
-        };
-        colorScheme: 'light' | 'dark';
-        isExpanded: boolean;
-        viewportHeight: number;
-        viewportStableHeight: number;
       };
     };
   }
 }
 
 export function Providers({ children }: { children: React.ReactNode }) {
-  const [mounted, setMounted] = useState(false);
-  const [telegramReady, setTelegramReady] = useState(false);
-
   useEffect(() => {
-    setMounted(true);
-    
-    // Check if running inside Telegram WebApp
-    const initTelegram = async () => {
-      if (typeof window !== 'undefined' && window.Telegram?.WebApp) {
-        const tg = window.Telegram.WebApp;
+    const initApp = async () => {
+      if (typeof window === 'undefined') return;
+
+      try {
+        const tg = window.Telegram?.WebApp;
+        const hasTelegramUser = tg?.initDataUnsafe?.user?.id;
         
-        // Signal that app is ready
-        tg.ready();
+        if (tg) {
+          try { tg.ready(); } catch (e) { /* ignore */ }
+          try { tg.expand(); } catch (e) { /* ignore */ }
+        }
         
-        // Expand to full height
-        tg.expand();
-        
-        // If we have initData, try to authenticate with it
-        if (tg.initData && tg.initData.length > 0) {
+        if (hasTelegramUser && tg?.initData) {
           try {
             const response = await fetch('/api/auth/telegram', {
               method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
+              headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ initData: tg.initData }),
             });
             
@@ -87,41 +51,44 @@ export function Providers({ children }: { children: React.ReactNode }) {
               const data = await response.json();
               localStorage.setItem('token', data.accessToken);
               useStore.setState({ 
-                token: data.accessToken, 
+                token: data.accessToken,
                 user: data.user, 
                 isAuthenticated: true 
               });
-              console.log('Telegram auth successful:', data.user.firstName);
             }
-          } catch (error) {
-            console.error('Telegram auth error:', error);
+          } catch (e) {
+            console.error('Telegram auth error:', e);
+          }
+        } else {
+          const token = localStorage.getItem('token');
+          if (token) {
+            useStore.setState({ token });
+            try {
+              const response = await fetch('/api/users/me', {
+                headers: { 'Authorization': `Bearer ${token}` },
+              });
+              
+              if (response.ok) {
+                const user = await response.json();
+                useStore.setState({ user, isAuthenticated: true });
+              } else {
+                localStorage.removeItem('token');
+                useStore.setState({ token: null, user: null, isAuthenticated: false });
+              }
+            } catch (e) {
+              console.error('User fetch error:', e);
+              localStorage.removeItem('token');
+              useStore.setState({ token: null, user: null, isAuthenticated: false });
+            }
           }
         }
-        
-        setTelegramReady(true);
-      } else {
-        // Not in Telegram - use regular auth
-        const token = localStorage.getItem('token');
-        if (token) {
-          useStore.setState({ token });
-          useStore.getState().fetchUser().catch(() => {
-            localStorage.removeItem('token');
-            useStore.setState({ token: null, user: null, isAuthenticated: false });
-          });
-        }
+      } catch (error) {
+        console.error('Init error:', error);
       }
     };
     
-    initTelegram();
+    initApp();
   }, []);
 
-  if (!mounted) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-white">
-        <div className="h-10 w-10 animate-spin rounded-full border-4 border-red-600 border-t-transparent" />
-      </div>
-    );
-  }
-
-  return <AppShellComponent>{children}</AppShellComponent>;
+  return <>{children}</>;
 }

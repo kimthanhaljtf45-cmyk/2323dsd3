@@ -1,89 +1,139 @@
-# АТАКА - Telegram Mini App для школи єдиноборств
+# АТАКА - Telegram Mini App
 
-## Опис проєкту
-Telegram Mini App для управління школою єдиноборств "АТАКА" Team Kostenko з функціоналом для учнів, батьків, тренерів та адміністраторів.
+## Опис
+Telegram Mini App для школи єдиноборств "АТАКА - Team Kostenko". Платформа для батьків, учнів, тренерів та адміністраторів для керування тренуваннями, відвідуваністю, оплатами та комунікацією.
 
-## Технології
-- **Frontend**: Next.js 16, Tailwind CSS 4, TypeScript, Zustand
-- **Backend**: Python FastAPI, Motor (async MongoDB driver)
-- **Database**: MongoDB
-- **Telegram**: Bot API, WebApp SDK
+## Tech Stack
+- **Frontend**: Next.js 16 + React 19 + Tailwind CSS + Zustand
+- **Backend**: FastAPI + MongoDB (Motor) + PyJWT
+- **Routing**: Next.js App Router (file-based)
 
-## Архітектура
+## Реалізовані функції (✅ MVP)
+
+### Етап 1 - App Shell + Home + Profile (ЗАВЕРШЕНО)
+- ✅ **Fixed App Shell** - фіксований header та bottom navigation
+- ✅ **Deep Profile** для батька:
+  - Hero блок з аватаром, ім'ям, роллю, статистикою
+  - "Моя родина в клубі" - список дітей
+  - "Моя активність" - тренування та попередження
+  - "Оплати" - неоплачені рахунки та історія
+  - "Повідомлення" - комунікація з тренером
+  - "Рейтинг і успішність"
+  - "Налаштування" - особисті дані, сповіщення, допомога
+- ✅ **Deep Home** для батька:
+  - Привітання з датою
+  - Картка наступного тренування з CTA
+  - Попередження про неоплачені рахунки
+  - "Мої діти" з attendance та progress
+  - "Швидкі дії" - розклад, оплати, пропуск, написати
+  - "Прогрес цього місяця" - прогрес бар по дітях
+  - "Життя клубу" - preview feed
+- ✅ **Deep Child Card**:
+  - Hero з ім'ям, групою, тренером, локацією
+  - Quick stats: дисципліна %, тренувань, досягнень
+  - Картка наступного тренування
+  - Детальна дисципліна (був/попередив/пропустив)
+  - Ціль місяця з прогрес баром
+  - Коментар тренера
+  - Досягнення
+  - Рейтинг
+  - Історія тренувань
+  - Оплати
+- ✅ **Schedule** - розклад тренувань з групуванням по датах
+- ✅ **Feed** - стрічка новин з фільтрами (Усі/Новини/Події)
 
 ### Ролі користувачів
-- **GUEST** - неавторизований (може переглядати)
-- **STUDENT** - учень (відстежує свій прогрес)
-- **PARENT** - батько (контролює дитину, оплачує)
-- **COACH** - тренер (призначає адмін)
-- **ADMIN** - адміністратор
-
-### Реєстрація
-- При авторизації користувач обирає роль: **Учень** або **Батько**
-- Роль **Тренер** призначає тільки адміністратор
-- Батько може додавати/керувати своїми дітьми
-
-### 4 Локації (реальні)
-1. **Позняки** — вул. Анни Ахматової, 13В
-   - Пн Ср Пт: 18:30-19:30, 19:30-20:00
-2. **Відрадний** — вул. Новопольова, 106
-   - Пн Ср Пт: 15:20-16:20, 16:20-17:20
-   - Вт Чт: 14:20-15:20, 15:20-16:20
-3. **Академіка Шалімова** — вул. Академіка Шалімова, 43
-   - Вт Чт: 17:00-18:30
-   - Сб: 10:00-11:30
-4. **Соломʼянка** — вул. Авіаконструктора Антонова, 4
-   - Вт Чт: 18:30-19:30, 19:30-21:00
-
-## API Endpoints
-
-### Auth
-```
-POST /api/auth/telegram     - авторизація через Telegram WebApp
-POST /api/auth/register     - реєстрація з вибором ролі (STUDENT/PARENT)
-POST /api/auth/mock         - демо вхід
-POST /api/admin/assign-role - призначення ролі (тільки адмін)
-```
-
-### Children (для батьків)
-```
-GET    /api/children          - список дітей
-GET    /api/children/:id      - деталі дитини
-POST   /api/children          - додати дитину
-PATCH  /api/children/:id      - оновити дитину
-DELETE /api/children/:id      - видалити дитину
-```
-
-### Schedule, Feed, Payments, etc.
-Повний API див. у server.py
-
-## Telegram Bot
-- **Username**: @ATAKA_App_bot
-- **Команди**: /start, /help, /schedule, /contact
-- **Webhook**: налаштований
-- **Привітання**: опис продукту + 4 локації
-
-## Демо акаунти
-- **Учень**: telegramId=100000010 (Артем)
-- **Батько**: telegramId=100000004 (Ірина, 2 дитини)
-- **Тренер**: telegramId=100000002 (Олександр)
-- **Адмін**: telegramId=100000001
+- ✅ PARENT (Батько)
+- ✅ STUDENT (Учень) - базова Home
+- ✅ COACH (Тренер) - базова Home
+- ✅ ADMIN (Адмін) - базова Home
 
 ## Backlog
 
 ### P0 (Критичні)
-- [ ] Форма вибору ролі при реєстрації в UI
-- [ ] Telegram WebApp повна інтеграція
+- [ ] Telegram WebApp повна інтеграція (initData auth)
+- [ ] Форма вибору ролі при реєстрації
 
 ### P1 (Важливі)
 - [ ] UI для батька: додавання/керування дітьми
 - [ ] Admin: призначення ролі тренера
-- [ ] Сповіщення про тренування
+- [ ] Absence flow - повідомлення про пропуск
+- [ ] Messages - комунікація тренер ↔ батьки
+- [ ] Notifications - сповіщення
 
 ### P2 (Бажані)
-- [ ] Лідерборд учнів
-- [ ] Нагороди/бейджі
-- [ ] Повідомлення тренер ↔ батько
+- [ ] Ratings - рейтинг дисципліни/групи/клубу
+- [ ] Tournaments - турніри
+- [ ] Rich Feed - фото/відео контент
+- [ ] Coach dashboard - attendance marking
+- [ ] Payment flow - підтвердження оплати
 
----
-*Останнє оновлення: 2026-04-03*
+## API Endpoints
+
+### Auth
+- `POST /api/auth/mock` - демо логін
+- `POST /api/auth/telegram` - Telegram WebApp авторизація
+
+### Users
+- `GET /api/users/me` - поточний користувач
+- `GET /api/users/me/dashboard` - dashboard data
+
+### Children
+- `GET /api/children` - діти батька
+- `GET /api/children/{id}` - одна дитина
+- `POST /api/children` - додати дитину
+
+### Schedule
+- `GET /api/schedule` - розклад тренувань
+
+### Content
+- `GET /api/content` - стрічка постів
+
+### Payments
+- `GET /api/payments` - оплати батька
+
+### Attendance
+- `GET /api/attendance/child/{childId}` - відвідуваність дитини
+
+## Тестові акаунти
+
+| Роль | Telegram ID | Ім'я |
+|------|-------------|------|
+| PARENT | 100000004 | Ірина |
+| STUDENT | 100000010 | Артем |
+| COACH | 100000002 | Олександр |
+| ADMIN | 100000001 | Адміністратор |
+
+## Запуск
+
+```bash
+# Backend
+cd backend && pip install -r requirements.txt
+python seed.py  # Наповнити базу тестовими даними
+uvicorn server:app --reload --port 8001
+
+# Frontend
+cd frontend && yarn install
+yarn dev  # Development
+yarn build && yarn start  # Production
+```
+
+## Структура файлів
+
+```
+/app
+├── backend/
+│   ├── server.py       # FastAPI routes
+│   ├── seed.py         # Database seeding
+│   └── requirements.txt
+├── frontend/
+│   ├── src/
+│   │   ├── app/        # Next.js pages
+│   │   ├── components/ # React components
+│   │   ├── store/      # Zustand store
+│   │   ├── lib/        # API client
+│   │   └── types/      # TypeScript types
+│   └── package.json
+└── memory/
+    └── PRD.md          # This file
+```
